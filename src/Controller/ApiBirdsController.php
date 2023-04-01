@@ -17,21 +17,17 @@ class ApiBirdsController extends AbstractController
     public function index(BirdsRepository $birdsRepository): Response
     {
         $birds = $birdsRepository->findAll();
-
         $data = [];
-
-        foreach ($birds as $p) {
+        foreach ($birds as $bird) {
             $data[] = [
-                'id' => $p->getId(),
-                'name' => $p->getName(),
-                'description' => $p->getDescription(),
-                'image' => $p->getImage(),
-                'link' => $p->getLink(),
-                'song' => $p->getSong(),
+                'id' => $bird->getId(),
+                'name' => $bird->getName(),
+                'description' => $bird->getDescription(),
+                'image' => $bird->getImage(),
+                'song' => $bird->getSong(),
+                'link' => $bird->getLink(),
             ];
-            
         }
-
-        return $this->json($data, $status = 200, $headers = ['Access-Control-Allow-Origin'=>'*']);
+        return $this->json($data);
     }
 }
