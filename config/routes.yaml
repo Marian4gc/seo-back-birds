@@ -5,5 +5,5 @@
 api_birds:
     path: /api/birds
     methods: [POST, GET]
-    
+    controller: App\Controller\ApiController::postBirds
 
