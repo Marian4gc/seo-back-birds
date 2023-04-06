@@ -18,16 +18,22 @@ class ApiBirdsController extends AbstractController
     {
         $birds = $birdsRepository->findAll();
         $data = [];
-        foreach ($birds as $bird) {
+
+        foreach ($birds as $p) {
             $data[] = [
-                'id' => $bird->getId(),
-                'name' => $bird->getName(),
-                'description' => $bird->getDescription(),
-                'image' => $bird->getImage(),
-                'song' => $bird->getSong(),
-                'link' => $bird->getLink(),
+                'id' => $p->getId(),
+                'name' => $p->getName(),
+                'description' => $p->getDescription(),
+                'image' => $p->getImage(),
+                'song' => $p->getSong(),
+                'link' => $p->getLink(),
             ];
         }
-        return $this->json($data);
+        
+        // return $this->json($data);
+        return $this->json($data, $status = 200, $headers = ['Access-Control-Allow-Origin'=>'*']);
     }
+
 }
+
+

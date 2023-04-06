@@ -17,16 +17,16 @@ class Birds
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $description = null;
+    private ?string $description = '';
 
     #[ORM\Column(length: 255)]
-    private ?string $image = null;
+    private ?string $image = '';
 
     #[ORM\Column(length: 255)]
-    private ?string $link = null;
+    private ?string $link = '';
 
     #[ORM\Column(length: 255)]
-    private ?string $song = null;
+    private ?string $song = '';
 
     public function getId(): ?int
     {

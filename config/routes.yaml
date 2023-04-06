@@ -2,8 +2,18 @@
 #    path: /
 #    controller: App\Controller\DefaultController::index
 
+# api_birds:
+#     path: /api/birds
+#     methods: [POST, GET]
+#     controller: App\Controller\ApiController::postBirds
+
+
 api_birds:
     path: /api/birds
     methods: [POST, GET]
     controller: App\Controller\ApiController::postBirds
 
+app_post:
+    path: /api/post
+    methods: [POST, GET]
+    controller: App\Controller\PostController::likeBird
