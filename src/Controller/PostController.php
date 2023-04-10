@@ -13,37 +13,44 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/api')]
 class PostController extends AbstractController
 {
-    #[Route('/post', name: 'app_post', methods: ['POST'])]
+    #[Route('/post', name: 'app_post', methods: ['POST', 'GET'])]
     public function likeBird(Request $request, EntityManagerInterface $entityManager, PostRepository $postRepository): Response
     {
+        $data = json_decode($request->getContent(), true);
 
-        $result = $postRepository->findAll();
-        // dump($result);
-        $post = [];
-
-        foreach ( $result as $r) {
-            $post[] = [
-                'id' => $r->getId(),
-                'name' => $r->getName(),
-            ];
+        //Verificar si los datos enviados son válidos
+        if (!isset($data) || !is_array($data) || count($data) === 0) {
+            return $this->json(['error' => 'Datos inválidos'], $status = 400, $headers = ['Access-Control-Allow-Origin'=>'*']);
         }
 
 
-        $data = json_decode($request->getContent(), true);
-        if (isset($data['name'])) {
-            $name = $data['name'];
+
+// Recorrer la lista de pájaros
+        
+        foreach ($data['birds'] as $birdData) {
+            $name = $birdData['name'];
             $bird = new Post();
             $bird->setName($name);
             $entityManager->persist($bird);
         }
-
         $bird = new Post();
         $bird->setName('');
 
         $entityManager->persist($bird);
         $entityManager->flush();
 
-        return $this->json($post, $status = 200, $headers = ['Access-Control-Allow-Origin'=>'*']);
+        // Obtener todos los datos actualizados
 
+        $post = [];
+
+        $result = $postRepository->findAll();
+        foreach ($result as $r) {
+            $post[] = [
+                'id' => $r->getId(),
+                'name' => $r->getName(),
+            ];
+        }
+
+        return $this->json($post, $status = 200, $headers = ['Access-Control-Allow-Origin'=>'*']);
     }
 }
